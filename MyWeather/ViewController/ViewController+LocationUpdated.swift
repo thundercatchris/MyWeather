@@ -73,20 +73,6 @@ extension ViewController: LocationUpdated {
             locationLabel.text = DataString.dataUnavailable
         }
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm dd MMM"
-
-        if let date = location?.date, let dateAsDate = dateFormatter.date(from: date) {
-            dateLabel.text = date
-
-            let hour = Calendar.current.component(.hour, from: dateAsDate)
-            if TimeOfDay.day.contains(hour) {
-                self.view.backgroundColor = Theme.Colors.day
-            } else {
-                self.view.backgroundColor = Theme.Colors.night
-            }
-        }
-        
         if let icon = location?.icon, let url = URL(string: "http://openweathermap.org/img/w/\(String(describing: icon)).png") {
             iconImageView.kf.setImage(with: url)
             
@@ -97,6 +83,30 @@ extension ViewController: LocationUpdated {
         if let icon = location?.icon {
             weatherImageView.image = UIImage(named: icon)
         }
+        
+        if let location = location {
+            displayDate(location: location)
+        }
     }
     
+    func displayDate(location: Location) {
+        let dateFormatterDate = DateFormatter()
+        dateFormatterDate.dateFormat = DateFormat.stored
+        
+        let dateFormatterDisplay = DateFormatter()
+        dateFormatterDisplay.dateFormat = DateFormat.display
+        
+            if let dateAsDate = dateFormatterDate.date(from: location.date) {
+            let dateAsString = dateFormatterDate.string(from: dateAsDate)
+            
+            dateLabel.text = dateAsString
+            
+            let hour = Calendar.current.component(.hour, from: dateAsDate)
+            if TimeOfDay.day.contains(hour) {
+                self.view.backgroundColor = Theme.Colors.day
+            } else {
+                self.view.backgroundColor = Theme.Colors.night
+            }
+        }
+    }
 }
