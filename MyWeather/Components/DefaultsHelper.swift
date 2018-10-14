@@ -10,7 +10,7 @@ import Foundation
 
 enum DateFormat {
     static let stored = "yyyy-MM-dd HH:mm:ss"
-    static let display = "HH:mm dd MMM"
+    static let display = "HH:mm, dd MMM"
 }
 
 // MARK: - DefaultsHelper

@@ -97,7 +97,7 @@ extension ViewController: LocationUpdated {
         dateFormatterDisplay.dateFormat = DateFormat.display
         
             if let dateAsDate = dateFormatterDate.date(from: location.date) {
-            let dateAsString = dateFormatterDate.string(from: dateAsDate)
+            let dateAsString = dateFormatterDisplay.string(from: dateAsDate)
             
             dateLabel.text = dateAsString
             
