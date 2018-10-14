@@ -2,7 +2,7 @@
 
 <img src=/images/sunIcon.png width="100" height="100">
 
-TFL EF English Live - test
+EF English Live - test
 
 
 ### Prerequisites
