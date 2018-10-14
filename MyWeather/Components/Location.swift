@@ -8,7 +8,10 @@
 
 import Foundation
 
-// MARK: - Location Codable Struct
+struct DateNow {
+   let date = Date()
+}
+
 struct Location: Codable {
     
     let name: String?
@@ -26,7 +29,7 @@ struct Location: Codable {
     let lon: Double
     let lat: Double
     
-    let date: Date
+    var date: String
     
     
     enum CodingKeys: String, CodingKey {
@@ -49,6 +52,8 @@ struct Location: Codable {
         case coord = "coord"
         case lon = "lon"
         case lat = "lat"
+        
+        case date = "date"
         
     }
     
@@ -77,7 +82,7 @@ struct Location: Codable {
         lon = try coord.decode(Double.self, forKey: .lon)
         lat = try coord.decode(Double.self, forKey: .lat)
         
-        date = Date()
+        date = try container.decode(String.self, forKey: .date)
         
     }
     
@@ -105,6 +110,8 @@ struct Location: Codable {
         var coord = container.nestedContainer(keyedBy: CodingKeys.self, forKey: .coord)
         try coord.encode(lon, forKey: .lon)
         try coord.encode(lat, forKey: .lat)
+        
+        try container.encode(date, forKey: .date)
         
     }
     

@@ -73,12 +73,13 @@ extension ViewController: LocationUpdated {
             locationLabel.text = DataString.dataUnavailable
         }
         
-        if let date = location?.date {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "HH:mm dd MMM"
-            dateLabel.text = dateFormatter.string(from: date)
-            
-            let hour = Calendar.current.component(.hour, from: date)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm dd MMM"
+
+        if let date = location?.date, let dateAsDate = dateFormatter.date(from: date) {
+            dateLabel.text = date
+
+            let hour = Calendar.current.component(.hour, from: dateAsDate)
             if TimeOfDay.day.contains(hour) {
                 self.view.backgroundColor = Theme.Colors.day
             } else {

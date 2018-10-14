@@ -42,7 +42,8 @@ class ViewControllerModel {
         guard let myLocation = myLocation else { return }
         NetworkRequest.getWeather(lat: myLocation.coordinate.latitude, lon: myLocation.coordinate.longitude) { (data) in
             guard let data = data else { return }
-            self.createLocationFromData(data)
+            guard let dataWithDate = DefaultsHelper.addDateToJSON(data: data) else { return }
+            self.createLocationFromData(dataWithDate)
         }
     }
     

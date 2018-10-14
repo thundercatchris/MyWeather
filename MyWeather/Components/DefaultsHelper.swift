@@ -22,7 +22,7 @@ class DefaultsHelper {
             return nil
         }
     }
-
+    
     class func saveLocation( _ location: Location) {
         let encoder = JSONEncoder()
         do {
@@ -38,12 +38,36 @@ class DefaultsHelper {
     class func recentStoredData() -> Location? {
         let userDefaults = UserDefaults.standard
         
-        guard let storedLocationData = userDefaults.data(forKey: DefaultsObject.location), let storedLocation = self.decodeLocationObject(storedLocationData) else { return nil }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm dd MMM"
+        
+        guard let storedLocationData = userDefaults.data(forKey: DefaultsObject.location),
+            let storedLocation = self.decodeLocationObject(storedLocationData),
+            let storedDate = dateFormatter.date(from: storedLocation.date) else { return nil }
         
         guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()),
-            storedLocation.date > yesterday else { return nil }
-
+            storedDate < yesterday else { return nil }
+        
         return storedLocation
+    }
+    
+    class func addDateToJSON(data: Data) -> Data? {
+        do {
+            var jsonDictionary = try JSONSerialization.jsonObject(with: data, options: []) as! [String : Any]
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "HH:mm dd MMM"
+            jsonDictionary["date"] = dateFormatter.string(from: Date())
+            
+            let dataWithDate = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
+            
+            return dataWithDate
+            
+        } catch let error as NSError {
+            print("Failed to load: \(error.localizedDescription)")
+            return nil
+        }
+        
     }
     
 }
