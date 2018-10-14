@@ -22,7 +22,8 @@ Open the MyWeather.xcworkspace project
 
 ### Testing
 
-Some basic Unit tests have been included and can be run individually or as an entire class. 
+Some basic Unit tests have been included and can be run individually or as an entire class.
+UI tests were not included as the UI is so simple, with the refresh button being visible at all times.
 
 
 ### Built With
