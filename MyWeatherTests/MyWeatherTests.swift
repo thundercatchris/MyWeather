@@ -7,28 +7,32 @@
 //
 
 import XCTest
+import MapKit
 @testable import MyWeather
 
 class MyWeatherTests: XCTestCase {
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testLocationUpdatedFail() {
+        let model = ViewControllerModel()
+        XCTAssertFalse(model.locationUpdated())
     }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testLocationUpdatedPass() {
+        let model = ViewControllerModel()
+        let mockManager = MockLocationManager()
+        mockManager.mockLocation = CLLocation(latitude: 51.509484, longitude: -0.080011)
+        model.locationManager = mockManager
+        XCTAssertTrue(model.locationUpdated())
     }
+    
+}
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+fileprivate class MockLocationManager : CLLocationManager {
+    var mockLocation: CLLocation?
+    override var location: CLLocation? {
+        return mockLocation
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    override init() {
+        super.init()
     }
-
 }
